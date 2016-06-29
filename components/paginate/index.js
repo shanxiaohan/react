@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import CSSModules from 'react-css-modules'
 import { immutableRenderDecorator } from 'react-immutable-render-mixin'
 import 'fe-reset'
@@ -9,7 +9,7 @@ import styles from './index.styl'
 export default class extends Component {
   state = {
     inputPage: 1,
-    showInput: false
+    showInput: true
   }
 
   changePage = (index) => {
@@ -26,11 +26,11 @@ export default class extends Component {
     let targetVal = event.target.name
     let curPage = this.props.paginateData.currentPage
     if (targetVal === 'next') {
-        this.props.onChangePage(curPage + 1)
-      }else if (targetVal === 'previous') {
-        this.props.onChangePage(curPage - 1)
-      }
+      this.props.onChangePage(curPage + 1)
+    } else if (targetVal === 'previous') {
+      this.props.onChangePage(curPage - 1)
     }
+  }
 
   renderPagination = () => {
     let items = []
@@ -103,6 +103,8 @@ export default class extends Component {
         {showPrevious ? <li className={styles.inline}><button className={styles.previous} onClick={this.handleClick} name='previous'>上一页</button></li> : null}
         {that.renderPagination()}
         {showNext ? <li className={styles.inline}><button className={styles.next} onClick={this.handleClick} name='next'>下一页</button></li> : null}
+        {this.state.showInput ? <span>第<input type='text' defaultValue={this.props.paginateData.currentPage} name='inputpage' size={3} onChange={this.handleInput} />页</span> : null}
+
          {this.state.showInput ? <li className={styles.inline}><button className={styles.confirm} onClick={this.handleConfirm.bind(this)}>确定</button></li> : null}
       </ul>
     )
